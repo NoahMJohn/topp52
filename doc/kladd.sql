@@ -47,3 +47,5 @@ WHERE
 tour_date >= '2021-01-01'
 AND
 tour_date <= '2021-12-1'
+
+select * from tours;

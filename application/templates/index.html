@@ -1,27 +1,90 @@
 {% extends 'base.html' %}
 {% block header %}
-<h1>{% block title %}Posts{% endblock %}</h1>
+<h1>{% block title %}{% endblock %}</h1>
 {% if g.user %}
-<a class="action" href="{{ url_for('blog.create') }}">New</a> 
 {% endif %} 
 {% endblock %} 
 {% block content %}
-<a href="{{ url_for('user.user_index', user_id=2) }}">Brukeside</a><br>
-<a href="{{ url_for('top.top_index') }}">Toppliste</a><br> 
-<br>
-{# TODO: Sjekk formatering av former https://getbootstrap.com/docs/4.0/components/forms/  #}
 
+{# TODO: Sjekk formatering av former https://getbootstrap.com/docs/4.0/components/forms/  #}
+{% if g.user %}
+<div class="row">
+  <div class="col-md-12">
+    Turer i år {{ tour_count }}  
+  
+  
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
 <form method="post">
     <label for="tour_date">Dato</label>
     <input type="date" id="tour_date" name="tour_date"
        value="{{ today }}"
        min="2021-01-01" max="{{ today }}">
-       <input type="submit" value="Registrer tur">
-
+       <input type="submit" class="btn btn-primary" value="Registrer tur">
   </form>
-
+  </div>
+  </div>
+  {% else %}
+  <p>
+  <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Logg In</a>
+  </p>
+  <p>
+  <a class="" href="{{ url_for('auth.register') }}">Registrer deg</a>
+</p>
+  {% endif %}
   {# TODO: Registrering skal bare vises om brukeren er logget inn #}
   {# Er en ikke logget inn så skal det være knapp for å registrere seg eller logge inn #}
+
+  <div class="row">
+    <div class="col-md-6">
+  <h2>Toppliste</h2>
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Navn</th>
+        <th scope="col">Antall</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for u in top_users %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ u['username'] }}</td>
+        <td>{{ u['count_tours'] }} </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
+      <a class="" href="{{ url_for('top.top_index') }}">Se hele listen</a>
+      </div>
+      <div class="col-md-6">
+        <h2>Siste turer</h2>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Dato / Tid</th>
+              <th scope="col">Navn</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for lt in latest_tours %}
+            <tr>
+              <td>{{ lt['created'] }}</td>
+              <td>{{ lt['username'] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+            <a class="" href="{{ url_for('top.top_index') }}">TODO! Se hele listen</a>
+
+            </div>
+        
+  
+    </div>
+
 
 
 

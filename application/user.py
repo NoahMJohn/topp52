@@ -32,3 +32,14 @@ def user_tours(user_id, year):
     #tour_count = get_user_tours_count(user_id,date.today().year)['count_tours']
     #return render_template('user/user_index.html', user=user, tour_count=tour_count)
     return render_template('user/user_tours.html', user=user, tours=tours)
+
+# users.py
+@bp.route("/user/<int:user_id>/tours/<int:tour_id>/delete")
+#@login_required # Siden skal bare være tilgjengelig for inlogget bruker, i test så kan en se forskjellige
+def user_tours_delete(user_id, tour_id):
+    flash('Slettet turen')
+    # SQL - Delete 
+    db = get_db()
+    db.execute('delete from tours where id=?', (tour_id,))
+    db.commit()
+    return redirect(url_for('user.user_index', user_id=user_id))

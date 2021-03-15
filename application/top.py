@@ -20,6 +20,10 @@ def top_index(interval='year'):
     if interval == 'year':
         date_from = date.today().replace(day=1, month=1)
         date_to = date.today()
+    elif interval == 'month':
+        date_from = date.today().replace(day=1)
+        date_to = date.today()
+  
     # TODO: Fortsett for måned og uke    
     top_users = get_top_users(date_from, date_to)
 

@@ -5,7 +5,7 @@ from flask import current_app
 from flask import g
 from flask.cli import with_appcontext
 from random import choice, randint
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from werkzeug.security import generate_password_hash
 
 
@@ -106,8 +106,7 @@ def get_tours_latest():
     limit 10
     """
     db = get_db()
-    db.execute(q)
-    return db.fetchall()
+    return db.execute(q).fetchall()
 
 def get_tours_count(year):
     q = """
@@ -123,7 +122,15 @@ def get_tours_count(year):
     db.execute(q)
     return db.fetchall()
 
-
+def insert_tour(user_id, tour_date):
+    q = """
+    insert into tours (user_id, tour_date, created)
+    values (?, ?, ?)
+    """
+    db = get_db()
+    result = db.execute(q, (user_id, tour_date, datetime.now())).fetchall()
+    db.commit()
+    return result
 
 
 @click.command("init-db")

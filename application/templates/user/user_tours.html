@@ -2,15 +2,12 @@
 
 {% block header %}
   <h1>{% block title %}{{ user['username'] }}{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('blog.create') }}">New</a>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
 <ul>
 {% for tour in tours %}
-<li>{{ tour['tour_date'] }}</li>
+<li>{{ tour['tour_date'] }} <a href="{{ url_for('user.user_tours_delete', user_id=user['id'], tour_id=tour['id']) }}">Slett</a></li>
 
 {% endfor %}
 </ul>

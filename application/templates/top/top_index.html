@@ -4,13 +4,13 @@
 {# https://getbootstrap.com/docs/4.0/components/navs/ #}
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" href="#">År</a>
+      <a class="nav-link active" href="{{url_for('top.top_index', interval='year')}}">År</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Måned</a>
+      <a class="nav-link" href="{{url_for('top.top_index', interval='month')}}">Måned</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Uke</a>
+      <a class="nav-link" href="{{url_for('top.top_index', interval='week')}}">Uke</a>
     </li>
   </ul>
 {% endblock %}
@@ -29,7 +29,7 @@
     <tbody>
     {% for u in top_users %}
       <tr>
-        <th scope="row">{{ loop.index }}</th>
+        <th class="table-light"  scope="row">{{ loop.index }}</th>
         <td>{{ u['username'] }}</td>
         <td>{{ u['count_tours'] }} </td>
       </tr>

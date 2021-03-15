@@ -9,23 +9,36 @@ from flask import url_for
 from werkzeug.exceptions import abort
 
 from application.auth import login_required
-from application.db import get_db
+from application.db import get_db, get_user, get_user_tours_count, get_top_users, get_tours_latest, insert_tour
 
 bp = Blueprint("index", __name__)
 
 
 @bp.route("/", methods=("GET", "POST"))
 def index():
+    tour_count = 0
+    if g.user:
+        user = get_user(g.user['id'])
+        tour_count = get_user_tours_count(g.user['id'],date.today().year)['count_tours']
+
     if request.method == "POST":
         tour_date = request.form["tour_date"] # Henter ut verdien
+        insert_tour(g.user['id'], tour_date)
+        
         flash('Tur registrert!')
-        print(tour_date)
+    
         # TODO: Så må en lagre dette i tabellen, med innlogget bruker
         # TODO: Mulig ta en til egen side når en har registrert turen?
 
     # TODO: Må vise antall turer i år mm. 
+    date_from = date.today().replace(day=1, month=1)
+    date_to = date.today()
+    # TODO: Fortsett for måned og uke    
+    top_users = get_top_users(date_from, date_to)
+    latest_tours = get_tours_latest()
+    today=date.today()
 
-    return render_template("index.html", today=date.today())
+    return render_template("index.html", **locals())
 
 
 def get_post(id, check_author=True):

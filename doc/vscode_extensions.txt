@@ -1,3 +1,4 @@
+Disse utvidelsene bør installeres i vs code
 Python
 Jinja 0.0.8
 Todo Tree 0.0.196
